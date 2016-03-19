@@ -8,29 +8,59 @@ const defaultStyle = {
   overlay: {
     display: 'flex'
   },
-  prompt: {
-    margin: 'auto',
+  box: {
+    margin: 'auto'
+  },
+  popup: {
+    cursor: 'zoom-out',
+    // Viewport-percentage lengths
     maxWidth: '80vw',
-    maxHeight: '80vh',
-    cursor: 'zoom-out'
+    maxHeight: '80vh'
+  },
+  caption: {
+    color: 'white',
+    textAlign: 'center'
   }
 }
 
+const getDefaultProps = () => {
+  return {
+    zIndex: 1000,
+    opacity: 0.95
+  }
+}
+
+export const defaultProps = getDefaultProps()
+
 const Lightbox = React.createClass({
   propTypes: {
+    /**
+     * Override the inline-styles of the click-able img element
+     */
     style: PropTypes.object,
+    /**
+  	 * The opacity of the overlay, default 0.95
+  	 */
     opacity: PropTypes.number,
+    /**
+  	 * The z-index of the overlay, default 1000
+  	 */
     zIndex: PropTypes.number,
-    src: PropTypes.string.isRequired
+    /**
+  	 * The source of <img />
+  	 */
+    src: PropTypes.string.isRequired,
+    /**
+  	 * Optional caption shown under the image (in white)
+  	 */
+    caption: PropTypes.string
   },
-  getDefaultProps: function () {
-    return {
-      zIndex: 1000,
-      opacity: 0.95
-    }
-  },
+  getDefaultProps: getDefaultProps,
   getInitialState: function () {
     return {
+      /**
+       * Controls if the overlay is shown
+       */
       open: false
     }
   },
@@ -54,15 +84,14 @@ const Lightbox = React.createClass({
          style={defaultStyle.overlay}
          opacity={this.props.opacity}
          zIndex={this.props.zIndex}>
-         <img src={this.props.src} onClick={this.handleClose} style={defaultStyle.prompt} />
+         <div style={defaultStyle.box}>
+           <img src={this.props.src} onClick={this.handleClose} style={defaultStyle.popup} />
+           {this.props.caption && <h4 style={defaultStyle.caption}>{this.props.caption}</h4>}
+         </div>
        </Overlay>}
     </div>
     )
   }
 })
-
-Lightbox.propTypes = {
-  opacify: PropTypes.number
-}
 
 export default Lightbox

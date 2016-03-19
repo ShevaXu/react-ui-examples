@@ -11,6 +11,6 @@ import { flower } from './assets'
 injectTapEventPlugin()
 
 render(
-  <Lightbox src={flower} style={{ width: 300 }} />,
+  <Lightbox src={flower} style={{ width: 300 }} caption='What a beautiful flower' />,
   document.getElementById('root')
 )
